@@ -207,6 +207,12 @@
       z-index: 1;
       position: relative;
     }
+    #version {
+      font-size: 0.75rem;
+      color: #b8a0ff;
+      margin-top: 0.5rem;
+      user-select: none;
+    }
 
     @media (max-width: 500px) {
       .card {
@@ -267,6 +273,7 @@
     </section>
 
     <footer>Made by mrmythrl ~ Enjoy</footer>
+    <p id="version">Version: 0.0.1</p>
   </main>
 
   <audio id="bgMusic" autoplay loop preload="metadata">
@@ -275,6 +282,7 @@
   </audio>
 
   <script>
+    // Music controls
     const music = document.getElementById("bgMusic");
     const btn = document.getElementById("musicBtn");
     const volumeSlider = document.getElementById("volumeSlider");
@@ -296,6 +304,28 @@
     volumeSlider.addEventListener("input", () => {
       music.volume = parseFloat(volumeSlider.value);
     });
+
+    // Version auto-increment logic
+    (function(){
+      const verEl = document.getElementById('version');
+      let v = localStorage.getItem('pageVersion') || '0.0.1';
+      let [major, minor, patch] = v.split('.').map(Number);
+
+      patch++;
+
+      if (patch > 9) {
+        patch = 0;
+        minor++;
+        if (minor > 9) {
+          minor = 0;
+          major++; // major increases only after minor > 9
+        }
+      }
+
+      const newVersion = `${major}.${minor}.${patch}`;
+      localStorage.setItem('pageVersion', newVersion);
+      verEl.textContent = 'Version: ' + newVersion;
+    })();
   </script>
 </body>
 </html>
