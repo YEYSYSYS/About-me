@@ -273,7 +273,7 @@
     </section>
 
     <footer>Made by mrmythrl ~ Enjoy</footer>
-    <p id="version">Version: 0.0.1</p>
+    <p id="version">Version: loading...</p>
   </main>
 
   <audio id="bgMusic" autoplay loop preload="metadata">
@@ -305,26 +305,22 @@
       music.volume = parseFloat(volumeSlider.value);
     });
 
-    // Version auto-increment logic
-    (function(){
+    // Fetch version from GitHub raw file
+    (function() {
       const verEl = document.getElementById('version');
-      let v = localStorage.getItem('pageVersion') || '0.0.1';
-      let [major, minor, patch] = v.split('.').map(Number);
+      const versionUrl = 'https://raw.githubusercontent.com/YEYSYSYS/About-me/main/version.txt';
 
-      patch++;
-
-      if (patch > 9) {
-        patch = 0;
-        minor++;
-        if (minor > 9) {
-          minor = 0;
-          major++; // major increases only after minor > 9
-        }
-      }
-
-      const newVersion = `${major}.${minor}.${patch}`;
-      localStorage.setItem('pageVersion', newVersion);
-      verEl.textContent = 'Version: ' + newVersion;
+      fetch(versionUrl, {cache: "no-store"}) // no cache to always get latest version on page load
+        .then(res => {
+          if (!res.ok) throw new Error('Failed to fetch version');
+          return res.text();
+        })
+        .then(text => {
+          verEl.textContent = 'Version: ' + text.trim();
+        })
+        .catch(() => {
+          verEl.textContent = 'Version: unknown';
+        });
     })();
   </script>
 </body>
