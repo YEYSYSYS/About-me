@@ -5,15 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>@mrmythrl</title>
   <style>
-    * {
+    /* Reset and box-sizing */
+    *, *::before, *::after {
       box-sizing: border-box;
     }
-
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
                    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      background: url('https://your-image-link.com/bg.jpg') center/cover no-repeat;
+      background: url('https://your-image-link.com/bg.jpg') center/cover no-repeat fixed;
       color: #fff;
       min-height: 100vh;
       display: flex;
@@ -21,15 +21,16 @@
       justify-content: center;
       padding: 2rem;
       position: relative;
+      overflow-x: hidden;
     }
-
     body::before {
       content: "";
-      position: absolute;
+      position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.6);
       backdrop-filter: blur(6px);
       z-index: 0;
+      pointer-events: none;
     }
 
     .card {
@@ -44,8 +45,8 @@
       text-align: center;
       backdrop-filter: blur(10px);
       animation: float 6s ease-in-out infinite;
+      will-change: transform;
     }
-
     @keyframes float {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-8px); }
@@ -60,8 +61,8 @@
       border: 3px solid #fff;
       box-shadow: 0 0 25px rgba(200, 150, 255, 0.6);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      will-change: transform, box-shadow;
     }
-
     .avatar:hover {
       transform: scale(1.08);
       box-shadow: 0 0 35px rgba(220, 180, 255, 0.9);
@@ -84,12 +85,10 @@
       animation: typing 3s steps(20, end) infinite alternate,
                  blink 0.75s step-end infinite;
     }
-
     @keyframes typing {
       from { width: 0; }
       to { width: 12ch; }
     }
-
     @keyframes blink {
       0%, 100% { border-color: transparent; }
       50% { border-color: #e0b3ff; }
@@ -109,7 +108,6 @@
       gap: 12px;
       margin-bottom: 1.5rem;
     }
-
     .links a {
       text-decoration: none;
       background: linear-gradient(135deg, #7b2edb, #a754f9);
@@ -119,8 +117,8 @@
       font-weight: bold;
       transition: 0.25s;
       box-shadow: 0 4px 15px rgba(130, 40, 200, 0.4);
+      will-change: background, transform;
     }
-
     .links a:hover {
       background: linear-gradient(135deg, #a855f7, #d586ff);
       transform: scale(1.05);
@@ -132,14 +130,13 @@
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap: 12px;
     }
-
     .gallery img {
       width: 100%;
       border-radius: 10px;
       box-shadow: 0 0 15px rgba(180, 120, 255, 0.6);
       transition: transform 0.3s, box-shadow 0.3s;
+      will-change: transform, box-shadow;
     }
-
     .gallery img:hover {
       transform: scale(1.05);
       box-shadow: 0 0 25px rgba(220, 160, 255, 0.8);
@@ -150,7 +147,6 @@
       font-size: 0.9rem;
       color: #e5caff;
     }
-
     .music-controls button {
       background: linear-gradient(135deg, #a754f9, #7b2edb);
       border: none;
@@ -161,10 +157,47 @@
       cursor: pointer;
       margin-top: 0.5rem;
       box-shadow: 0 2px 10px rgba(130, 40, 200, 0.4);
+      will-change: background;
+      transition: background 0.3s;
     }
-
     .music-controls button:hover {
       background: linear-gradient(135deg, #c084fc, #9333ea);
+    }
+    #volumeSlider {
+      width: 100%;
+      margin-top: 0.8rem;
+      cursor: pointer;
+      -webkit-appearance: none;
+      height: 6px;
+      border-radius: 4px;
+      background: linear-gradient(135deg, #7b2edb, #a754f9);
+      outline: none;
+      transition: background 0.3s;
+      will-change: background;
+    }
+    #volumeSlider:hover {
+      background: linear-gradient(135deg, #a855f7, #d586ff);
+    }
+    #volumeSlider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #fff;
+      cursor: pointer;
+      box-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
+      transition: background 0.3s;
+      margin-top: -6px;
+    }
+    #volumeSlider::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #fff;
+      cursor: pointer;
+      box-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
+      transition: background 0.3s;
     }
 
     footer {
@@ -183,72 +216,60 @@
   </style>
 </head>
 <body>
-  <div class="card">
-    <a href="https://discord.com/users/937187266495938650" target="_blank">
+  <main class="card" role="main" aria-label="Personal Profile Card">
+    <a href="https://discord.com/users/937187266495938650" target="_blank" rel="noopener noreferrer">
       <img
         src="https://media.discordapp.net/attachments/1267893940108136628/1401743550617616454/skibidisigma_1.png?ex=689162e9&is=68901169&hm=741a1b73dfaaec3a3eff5b1fc0835b83986a0c7aca3712624dbd9a71e61dc680&=&format=webp&quality=lossless&width=1170&height=1170"
         alt="Avatar"
         class="avatar"
+        loading="lazy"
+        decoding="async"
       />
     </a>
 
     <h1><span id="typewriter">@mrmythrl</span></h1>
+
     <p class="description">
-      I'm 14, single, slightly retarded. I can be stupid as fuck. <br />
-      I am a MSRP HCSO Undersheriff, and a MSRP leadership team member. My
-      driving skills are really shit, and my aim is worse. Don't ask me for
-      relationship because I will block you quicker then your mom throws a
-      fucking slipper. <br />
-      me like hunting and fishing; my favorite conceal carry rounds are .950s
-      .50 bmgs and 1 guage shotgun rounds <br />
-      .45 ACP is W still <br />
-      UNBAN ARs
-      <br /><br />
+      I'm 14, single, slightly retarded. I can be stupid as fuck.<br />
+      I am a MSRP HCSO Undersheriff, and a MSRP leadership team member. My driving skills are really shit, and my aim is worse. Don't ask me for relationship because I will block you quicker then your mom throws a fucking slipper.<br />
+      me like hunting and fishing; my favorite conceal carry rounds are .950s .50 bmgs and 1 guage shotgun rounds<br />
+      .45 ACP is W still<br />
+      UNBAN ARs<br /><br />
       I like guns, guns, artillery, LEO stuff, railfanning, and busfanning.
     </p>
-    <div class="links">
-      <a href="https://discord.com/users/937187266495938650" target="_blank"
-        >Discord</a
-      >
-      <a href="https://www.roblox.com/users/3241363957/profile" target="_blank"
-        >Roblox</a
-      >
-      <a href="https://youtube.com/@CommunistChineseofficial" target="_blank"
-        >YouTube</a
-      >
-      <a href="https://discord.gg/Ppu6f65YXk" target="_blank">Join MSRP</a>
-      <a href="https://github.com/YEYSYSYS/About-me" target="_blank"
-        >Want to get a website like this?</a
-      >
-    </div>
 
-    <div class="gallery">
-      <img
-        src="https://your-image-link.com/pic1.jpg"
-        alt="Pic 1"
-        loading="lazy"
-      />
-      <img
-        src="https://your-image-link.com/pic2.jpg"
-        alt="Pic 2"
-        loading="lazy"
-      />
-      <img
-        src="https://your-image-link.com/pic3.jpg"
-        alt="Pic 3"
-        loading="lazy"
-      />
-    </div>
+    <nav class="links" aria-label="Social and important links">
+      <a href="https://discord.com/users/937187266495938650" target="_blank" rel="noopener noreferrer">Discord</a>
+      <a href="https://www.roblox.com/users/3241363957/profile" target="_blank" rel="noopener noreferrer">Roblox</a>
+      <a href="https://youtube.com/@CommunistChineseofficial" target="_blank" rel="noopener noreferrer">YouTube</a>
+      <a href="https://discord.gg/Ppu6f65YXk" target="_blank" rel="noopener noreferrer">Join MSRP</a>
+      <a href="https://github.com/YEYSYSYS/About-me" target="_blank" rel="noopener noreferrer">Want to get a website like this?</a>
+    </nav>
 
-    <div class="music-controls">
+    <section class="gallery" aria-label="Image gallery">
+      <img src="https://your-image-link.com/pic1.jpg" alt="Pic 1" loading="lazy" decoding="async" />
+      <img src="https://your-image-link.com/pic2.jpg" alt="Pic 2" loading="lazy" decoding="async" />
+      <img src="https://your-image-link.com/pic3.jpg" alt="Pic 3" loading="lazy" decoding="async" />
+    </section>
+
+    <section class="music-controls" aria-label="Music player controls">
       <div>🎶 Now playing: <strong>March of the Volunteers</strong></div>
-      <button onclick="toggleMusic()" id="musicBtn">Pause Music</button>
-    </div>
+      <button onclick="toggleMusic()" id="musicBtn" aria-pressed="true">Pause Music</button>
+      <input
+        type="range"
+        id="volumeSlider"
+        min="0"
+        max="1"
+        step="0.01"
+        value="0.2"
+        aria-label="Music volume control"
+      />
+    </section>
 
     <footer>Made by mrmythrl ~ Enjoy</footer>
-  </div>
+  </main>
 
-  <audio id="bgMusic" autoplay loop preload="none">
+  <audio id="bgMusic" autoplay loop preload="metadata">
     <source src="https://files.catbox.moe/0l1lp8.mp3" type="audio/mpeg" />
     Your browser does not support the audio element.
   </audio>
@@ -256,17 +277,25 @@
   <script>
     const music = document.getElementById("bgMusic");
     const btn = document.getElementById("musicBtn");
-    music.volume = 0.2;
+    const volumeSlider = document.getElementById("volumeSlider");
+
+    music.volume = parseFloat(volumeSlider.value);
 
     function toggleMusic() {
       if (music.paused) {
         music.play();
         btn.innerText = "Pause Music";
+        btn.setAttribute("aria-pressed", "true");
       } else {
         music.pause();
         btn.innerText = "Play Music";
+        btn.setAttribute("aria-pressed", "false");
       }
     }
+
+    volumeSlider.addEventListener("input", () => {
+      music.volume = parseFloat(volumeSlider.value);
+    });
   </script>
 </body>
 </html>
