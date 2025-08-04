@@ -141,7 +141,32 @@
       transform: scale(1.05);
       box-shadow: 0 0 25px rgba(220, 160, 255, 0.8);
     }
+ .music-controls {
+      margin-top: 1.2rem;
+      font-size: 0.9rem;
+      color: #e5caff;
+    }
 
+    .music-controls button {
+      background: linear-gradient(135deg, #a754f9, #7b2edb);
+      border: none;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      box-shadow: 0 2px 10px rgba(130, 40, 200, 0.4);
+    }
+
+    .music-controls button:hover {
+      background: linear-gradient(135deg, #c084fc, #9333ea);
+    }
+
+
+
+
+    
     footer {
       margin-top: 2rem;
       font-size: 0.8rem;
@@ -182,13 +207,35 @@
       <img src="https://your-image-link.com/pic1.jpg" alt="Pic 1" />
       <img src="https://your-image-link.com/pic2.jpg" alt="Pic 2" />
       <img src="https://your-image-link.com/pic3.jpg" alt="Pic 3" />
-    
+ <div class="music-controls">
+      <div>🎶 Now playing: <strong>Your Song Title</strong></div>
+      <button onclick="toggleMusic()" id="musicBtn">Pause Music</button>
+    </div>
+    <footer>
+     Made by mrmythrl ~ Enjoy
+    </footer>
   </div>
-</body>
-</html>
-  <footer>
-    Made by mrmythrl • Enjoy
-  </footer>
+
+  <audio id="bgMusic" autoplay loop>
+    <source src="https://example.com/your-music.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    const music = document.getElementById('bgMusic');
+    const btn = document.getElementById('musicBtn');
+    music.volume = 0.2;
+
+    function toggleMusic() {
+      if (music.paused) {
+        music.play();
+        btn.innerText = 'Pause Music';
+      } else {
+        music.pause();
+        btn.innerText = 'Play Music';
+      }
+    }
+  </script>
 </body>
 </html>
 
