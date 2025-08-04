@@ -3,48 +3,74 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>mrmythrl</title>
+  <title>@mrmythrl</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #9001FD, #6102BA);
+      background: url('https://your-image-link.com/bg.jpg') center/cover no-repeat;
       color: #fff;
+      min-height: 100vh;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      padding: 2rem 1rem;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+    }
+
+    /* Optional background overlay */
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 0;
     }
 
     .card {
-      background-color: #5300BE;
-      border-radius: 16px;
+      position: relative;
+      z-index: 1;
+      background: rgba(30, 30, 30, 0.8);
+      border-radius: 18px;
       padding: 2rem;
       max-width: 500px;
       width: 100%;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
       text-align: center;
+      backdrop-filter: blur(10px);
     }
 
     .avatar {
-      width: 120px;
-      height: 120px;
+      width: 130px;
+      height: 130px;
       border-radius: 50%;
       object-fit: cover;
-      border: 3px solid #3A0184;
       margin-bottom: 1rem;
+      border: 3px solid #fff;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .avatar:hover {
+      transform: scale(1.05);
     }
 
     h1 {
-      font-size: 1.8rem;
+      font-size: 2rem;
       margin: 0.5rem 0;
+      text-shadow: 0 0 8px rgba(255,255,255,0.2);
     }
 
     p.description {
-      font-size: 0.95rem;
-      color: #9B01FA;
-      line-height: 1.6;
+      font-size: 1rem;
+      color: #ccc;
       margin: 1.5rem 0;
+      line-height: 1.6;
       text-align: left;
     }
 
@@ -56,25 +82,29 @@
 
     .links a {
       text-decoration: none;
-      background-color: #220044;
-      color: #5B00B6;
+      background-color: #292929;
+      color: #fff;
       padding: 12px;
       border-radius: 8px;
-      transition: 0.3s;
-      font-weight: 500;
+      font-weight: bold;
+      transition: 0.2s;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     }
 
     .links a:hover {
-      background-color: #724D97;
+      background-color: #444;
+      transform: scale(1.02);
     }
 
     footer {
       margin-top: 2rem;
-      font-size: 0.75rem;
-      color: #555;
+      font-size: 0.8rem;
+      color: #aaa;
+      z-index: 1;
+      position: relative;
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 500px) {
       .card {
         padding: 1.5rem 1rem;
       }
